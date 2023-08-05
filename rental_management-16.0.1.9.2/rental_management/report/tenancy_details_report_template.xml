@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="tenancy_details_qweb_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h6>
+                            Tenancy
+                        </h6>
+                        <h2>
+                            <strong>
+                                <span t-field="doc.tenancy_seq"/>
+                            </strong>
+                        </h2>
+                        <br/>
+                        <table class="table table-borderless">
+                            <tr style="border-bottom:1px solid black;border-top:1px solid black;">
+                                <td colspan="3" style="padding:3px;">
+                                    <strong>
+                                        <h4>
+                                            Tenancy Information
+                                        </h4>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:33.33%;">
+                                    <strong>
+                                        Tenant
+                                    </strong>
+                                    <br/>
+                                    <h6>
+                                        <span t-field="doc.tenancy_id"/>
+                                    </h6>
+                                </td>
+                                <td style="width:33.33%;">
+                                    <strong>
+                                        Rent
+                                    </strong>
+                                    <br/>
+                                    <h6>
+                                        <span t-field="doc.total_rent"/>
+                                    </h6>
+                                </td>
+                                <td style="width:33.33%;">
+                                    <strong>
+                                        Payment Term
+                                    </strong>
+                                    <br/>
+                                    <h6>
+                                        <span t-field="doc.payment_term"/>
+                                    </h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:33.33%;">
+                                    <strong>
+                                        Duration
+                                    </strong>
+                                    <br/>
+                                    <h6>
+                                        <span t-field="doc.duration_id"/>
+                                    </h6>
+                                </td>
+                                <td style="width:33.33%;">
+                                    <strong>
+                                        Start Date
+                                    </strong>
+                                    <br/>
+                                    <h6>
+                                        <span t-field="doc.start_date"/>
+                                    </h6>
+                                </td>
+                                <td style="width:33.33%;">
+                                    <strong>
+                                        End Date
+                                    </strong>
+                                    <br/>
+                                    <h6>
+                                        <span t-field="doc.end_date"/>
+                                    </h6>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table class="table table-borderless">
+                            <tr style="border-bottom:1px solid black;border-top:1px solid black;">
+                                <td colspan="3" style="padding:3px;">
+                                    <strong>
+                                        <h4>
+                                            Property Information
+                                        </h4>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:33.33%;">
+                                    <strong>
+                                        Property
+                                    </strong>
+                                    <br/>
+                                    <h6>
+                                        <span t-field="doc.property_id"/>
+                                    </h6>
+                                </td>
+                                <td style="width:33.33%;">
+                                    <t t-if="doc.property_id.is_parent_property">
+                                        <strong>
+                                            Parent Property
+                                        </strong>
+                                        <br/>
+                                        <h6>
+                                            <span t-field="doc.property_id.parent_property_id"/>
+                                        </h6>
+                                        <strong>Landlord</strong>
+                                        :
+                                        <span t-field="doc.property_landlord_id"/>
+                                    </t>
+                                    <t t-else="">
+                                        <strong>
+                                            Landlord
+                                        </strong>
+                                        <br/>
+                                        <h6>
+                                            <span t-field="doc.property_landlord_id"/>
+                                        </h6>
+                                    </t>
+                                </td>
+                                <td style="width:33.33%;">
+                                    <strong>Address</strong>
+                                    <br/>
+                                    <h6>
+                                        <t t-if="doc.property_id.is_parent_property">
+                                            <span>
+                                                <span t-field="doc.property_id.parent_street"/>
+                                                <br/>
+                                                <span t-field="doc.property_id.parent_street2"/>
+                                                <br/>
+                                                <span t-field="doc.property_id.parent_city_id.name"/>
+                                                <span t-field="doc.property_id.parent_state_id.name"/>
+                                                <span t-field="doc.property_id.parent_zip"/>
+                                                <br/>
+                                                <span t-field="doc.property_id.parent_country_id.name"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span>
+                                                <span t-field="doc.property_id.street"/>
+                                                <br/>
+                                                <span t-field="doc.property_id.street2"/>
+                                                <br/>
+                                                <span t-field="doc.property_id.city_id.name"/>
+                                                <span t-field="doc.property_id.state_id.name"/>
+                                                <span t-field="doc.property_id.zip"/>
+                                                <br/>
+                                                <span t-field="doc.property_id.country_id.name"/>
+                                            </span>
+                                        </t>
+                                    </h6>
+                                </td>
+                            </tr>
+                        </table>
+                        <p style="page-break-before:always;"/>
+                        <h2 style="text-align:center;">RENTAL AGREEMENT</h2>
+                        <hr/>
+                        <span t-field="doc.agreement" t-options="{'widget': 'html'}"/>
+                        <p style="page-break-before:always;"/>
+                        <h2 style="text-align:center;">TERMS &amp; CONDITIONS</h2>
+                        <hr/>
+                        <span t-field="doc.term_condition" t-options="{'widget': 'html'}"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="tenancy_details_report_id" model="ir.actions.report">
+        <field name="name">Tenancy Details</field>
+        <field name="model">tenancy.details</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rental_management.tenancy_details_qweb_report_template</field>
+        <field name="report_file">rental_management.tenancy_details_qweb_report_template</field>
+        <field name="binding_model_id" ref="model_tenancy_details"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'%s Information' %(object.tenancy_seq)</field>
+    </record>
+</odoo>
+
+
